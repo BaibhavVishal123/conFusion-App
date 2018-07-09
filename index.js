@@ -20,10 +20,22 @@ connect.then((db) => {
         })
         .then((dish) => {
             console.log(dish);
-            return db.collection('dishes').drop();
+            dish.comments.push({
+                rating: 5,
+                comment: 'I\'m getting a sinking feeling!',
+                author: 'Leonardo di Carpaccio'
+            });
+            return dish.save();
+        })
+        .then((dish) => {
+            console.log(dish);
+            return db.connection.collection('dishes').drop();
+            //return db.connection.collections['dishes'].drop();
         })
         .then(() => {
-            return db.close();
+            return db.connection.close();
         })
-        .catch((err) => {});
+        .catch((err) => {
+            console.log(err);
+        });
 });
